@@ -9,7 +9,7 @@ import pyperclip
 pyperclip.copy('Copied text 1')
 
 engine = pyttsx3.init()
-engine.say("Hello jidnyesh  , welcome back")
+engine.say("Hello jidnyesh")
 engine.setProperty('rate',120)
 engine.setProperty('volume',0.9)
 engine.runAndWait()
@@ -49,6 +49,7 @@ def main():
                 print('hi this is Jarvis')
                 engine.say("Hi this is bi frost")
                 engine.runAndWait()
+
                 with sr.Microphone() as source:
                     print("Tell me something:")
                     engine.say("Tell me something")
