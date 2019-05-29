@@ -6,6 +6,7 @@ import datetime
 import webbrowser
 import speech_recognition as sr
 import pyperclip
+import requests
 
 
 pyperclip.copy('Copied text 1')
@@ -13,14 +14,11 @@ engine = pyttsx3.init()
 voices = engine.getProperty('voices')
 rate = engine.getProperty('rate')
 
-name = '''
-कृपया प्रतीक्षा करें
-'''
+
 
 engine.setProperty('voices', voices[29].id)
 engine.setProperty('rate', 125)
-engine.say(name)
-engine.runAndWait()
+
 
 '''
 List of outcomes
@@ -36,9 +34,25 @@ item_code = [
     'आइटम कोड जनरेट करो',
     'आइटम का कोड जनरेट करो',
     'न्यू आइटम जनरेट करो',
-    
-    
-    ]
+]
+
+machine = [
+    'मशीन की इंफॉर्मेशन निकालो',
+    'मशीन की पूरी इंफॉर्मेशन निकालो',
+    'मशीन की इन पुणे का लो',
+    'मशीन की इन्फॉर्म कालो',
+    'मशीन का डाटा बताओ',
+    'मशीन का डाटा निकालो',
+    'मशीन की इंफॉर्मेशन दिखाओ',
+    'मशीन के इंफॉर्मेशन दिखाओ',
+]
+machine_name_select = [
+    'submachine ka data dikhao',
+    'sab',
+    'sub',
+    'sab machine ka data dikhao',
+]
+
 recog = [
     'हाय आयुध',
     'सुनो आयुध',
@@ -46,15 +60,18 @@ recog = [
     'आयुष सुनो',
     'आयुध सुनो',
     'हाय आयोग',
-    'सुनो आयुष'
-
+    'सुनो आयुष',
+    'सुनो आयुष',
+    'सुनवा युद्ध',
+    'सुना युद्ध',
+    'सोना युद्ध',
+    'सुनो युद्ध',
+    'सुनवाई युद्ध',
+    'हेलो आयुष',
+    
 ]
 
-# dictonary = {
-#     'कोटेशन दिखाओ':
-# }
-
-
+  
 
 # obtain audio from the microphone 
 def invite():
@@ -63,60 +80,111 @@ def invite():
         print("Please wait. Calibrating microphone...")  
         # listen for 5 seconds and create the ambient noise energy level  
         r.adjust_for_ambient_noise(source, duration=3)  
-        print("Say something!")  
-        a = r.listen(source,timeout=4)
-        try:
-            ma = r.recognize_google(a,language='hi-IN')
-            print(ma)
-            def ayudh():
-                if ma in recog:
-                    print('\n नमस्ते')
-                    engine.say("Namaste")
+        print("Say something!")
+        a = r.listen(source)
+        # try:
+        ma = r.recognize_sphinx(a,language='hi-IN')
+        if speech_recognition.UnknownValueError():
+            print('Success')
+        print(ma)
+        def ayudh():
+            r = sr.Recognizer()
+            if ma in recog:
+                print('\nनमस्ते')
+                engine.say("Namaste")
+                engine.runAndWait()
+
+                with sr.Microphone() as source:
+                    print("आप मुझसे क्या कराना चाहते हैं \n")
+                    engine.say("आप मुझसे क्या कराना चाहते हैं")
                     engine.runAndWait()
-
-                    with sr.Microphone() as source:
-                        print("आप मुझसे क्या कराना चाहते हैं \n")
-                        engine.say("आप मुझसे क्या कराना चाहते हैं")
-                        engine.runAndWait()
-                        print('कृपया कहे')
-                        a = r.listen(source)
-                        res_split = res.split()
-                        print(res_split)
-                        try:
-                            res = r.recognize_google(audio)
-                            print("You said:- " + res)
-                            if res in date:
-                                print('Current time is ',now.hour , now.minute)
-                                st = "Current time is {0} slash {1}".format(now.hour,now.minute)
-                                engine.say(st)
-                                engine.runAndWait()
-                            elif res in google:
-                                engine.say('Opening google.com')
-                                engine.runAndWait()
-                                webbrowser.open('https://www.google.com')
-                            elif res_split[0]=="open" and res_split[1]=="website":
-                                webst = res_split[2]
-                                engine.say('Searching for '+webst)
-                                engine.runAndWait()
-                                webbrowser.open('https://www.google.com/search?client=firefox-b-ab&q='+webst)
-                            elif res_split[0]=="copy":
-                                cpd = res_split[1:]
-                                copied = " ".join(cpd)
-                                print("this is copied text "+copied)
-                                pyperclip.copy()
-                            elif res=='open calculator':
-                                print('Opening calci')
-                                os.system('start calc.exe')
-
-                            elif res=="break":
-                                print('fuck') 
-                        except :
-                            print("Could not understand audio")
-                            engine.say('I didnt get that.')
+                    print('Listening')
+                    a = r.listen(source)
+                    
+                    try:
+                        global res1
+                        res1 = r.recognize_sphinx(a,language='hi-IN')
+                        print("You said:- " + res1)
+                        if res1 in date:
+                            print('Current time is ',now.hour , now.minute)
+                            st = "Current time is {0} slash {1}".format(now.hour,now.minute)
+                            engine.say(st)
                             engine.runAndWait()
-                            ayudh()
-        except:
-            invite()
+                        elif res1 in machine:
+                            print('आपको कौन सी मशीन डेटा चाहिए')
+                            engine.say('आपको कौन सी मशीन डेटा चाहिए')
+                            engine.runAndWait()
+                            with sr.Microphone() as source:
+                                print('Listening')
+                                a = r.listen(source)
+                                try:
+                                    def commands():
+                                        res1 = r.recognize_sphinx(a)
+                                        url = 'http://192.168.1.2/api/machines'
+                                        r = requests.get(url)
+                                        print("You said:- " + res1)
+                                        if res1 in machine_name_select:
+                                            js = r.json()
+                                            for data in js:
+                                                print('Machine name -- '+data['name'] + '\n')
+                                                print('ID :'+data['id']+'\n')
+                                                print('Incharge  \n')
+                                                print('Name :'+ data['incharge']['name'] + '\n')
+                                                print('Phone :' + data['incharge']['phone'] + '\n')
+                                                print('Email :' + data['incharge']['email'] + '\n')
+                                                print('Supplier ' + data['supplier']['name'] + '\n')
+                                                print("Checkup \n")
+                                                print('Interval :' + str(data['checkup']['interval']['value']) +' '+ data['checkup']['interval']['unit']+'\n\n')
+                                        else:
+                                            js = r.json()
+                                            for data in js:
+                                                final = []
+                                                nam = data['name']
+                                                nam = nam.lower()
+                                                for j in nam:
+                                                    val = 0
+                                                    nam_split = list(j.split())
+                                                    res_split = list(res1.split())
+                                                    for response1 in res_split:
+                                                        if response1 in nam_split:
+                                                            val = val + 1
+                                                    if val == len(res_split):
+                                                        ''.join(nam_split)
+                                                        final.append(nam_split)
+                                            print(final)
+                                    commands()
+                                except:
+                                    print("Could not understand audio")
+                                    engine.say('I didnt get that.')
+                                    engine.runAndWait()
+                                    ayudh()
+
+                        # elif res_split[0]=="open" and res_split[1]=="website":
+                        #     webst = res_split[2]
+                        #     engine.say('Searching for '+webst)
+                        #     engine.runAndWait()
+                        #     webbrowser.open('https://www.google.com/search?client=firefox-b-ab&q='+webst)
+                        # elif res_split[0]=="copy":
+                        #     cpd = res_split[1:]
+                        #     copied = " ".join(cpd)
+                        #     print("this is copied text "+copied)
+                        #     pyperclip.copy()
+                        # elif res1=='open calculator':
+                        #     print('Opening calci')
+                        #     os.system('start calc.exe')
+
+                        # elif res1=="break":
+                        #     print('fuck')
+                    except:
+                        print("Could not understand audio")
+                        engine.say('I didnt get that.')
+                        engine.runAndWait()
+                        ayudh()
+        ayudh()
+
+        # except:
+        #     invite()
+
 
 while True:
     invite()

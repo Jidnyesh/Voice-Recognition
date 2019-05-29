@@ -1,4 +1,4 @@
-#!/home/jidnyesh/Downloads/github/Voice-Recognition/env/bin/python3
+#!/home/jidnyesh/Downloads/github/voicerecog/env/bin/python3
 
 # -*- coding: utf-8 -*-
 import re

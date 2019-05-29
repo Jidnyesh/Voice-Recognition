@@ -1,4 +1,4 @@
-#!/home/jidnyesh/Downloads/github/Voice-Recognition/env/bin/python
+#!/home/jidnyesh/Downloads/github/voicerecog/env/bin/python
 
 import sys
 import getopt
