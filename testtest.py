@@ -5,11 +5,9 @@ import os
 import datetime
 import webbrowser
 import speech_recognition as sr
-import pyperclip
 import requests
 
 
-pyperclip.copy('Copied text 1')
 engine = pyttsx3.init()
 engine.say('Hello')
 engine.runAndWait()
