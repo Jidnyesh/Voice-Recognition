@@ -69,7 +69,7 @@ def listen_this():
     global res,r,a
     r = sr.Recognizer()  
     with sr.Microphone() as source:  
-        print("Please wait. Calibrating microphone...")  
+        # print("Please wait. Calibrating microphone...")  
         # listen for 5 seconds and create the ambient noise energy level  
         r.adjust_for_ambient_noise(source, duration=3)  
         print("Say something!")
