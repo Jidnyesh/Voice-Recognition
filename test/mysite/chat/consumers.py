@@ -119,7 +119,7 @@ class ChatConsumer(WebsocketConsumer):
                 # if second:
                 #     res = r.recognize_google(a)
                 # else:
-                res = r.recognize_google(a,language='hi-IN')
+                res = r.recognize_sphinx(a)
                 return res
 
 
@@ -201,7 +201,7 @@ class ChatConsumer(WebsocketConsumer):
 
             
         
-        # message = 'random test'
+        res = 'random test'
 
         # Send message to WebSocket
         self.send(text_data=json.dumps({

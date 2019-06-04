@@ -24,8 +24,8 @@
         var data = JSON.parse(e.data);
         var message = data['message'];
         var response = data['response'];
-        document.querySelector('#chat-log').value += (message + '\n\n');
-        document.querySelector('#chat-log').value += (response + '\n\n');
+        document.querySelector('#chat-log').value += (message + '\n');
+        document.querySelector('#chat-log').value += (response + '\n');
         document.querySelector('#chat-log').style.fontWeight='bolder';
     };
     function clickclear(){
