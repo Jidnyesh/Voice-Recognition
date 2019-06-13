@@ -11,61 +11,63 @@ import datetime
 import webbrowser
 import speech_recognition as sr
 import requests
+import pyaudio
+import wave
 
-engine = pyttsx3.init()
+# engine = pyttsx3.init()
 
-voices = engine.getProperty('voices')
-rate = engine.getProperty('rate')
-
-
-
-engine.setProperty('voices', voices[29].id)
-engine.setProperty('rate', 125)
-
-recog = [
-    'हाय आयुध',
-    'हेलो आयुध',
-    'सुनो आयुध',
-    'चुनाव आयोग',
-    'आयुष सुनो',
-    'आयुध सुनो',
-    'हाय आयोग',
-    'सुनो आयुष',
-    'सुनो आयुष',
-    'सुनवा युद्ध',
-    'सुना युद्ध',
-    'सोना युद्ध',
-    'सुनो युद्ध',
-    'सुनवाई युद्ध',
-    'ब्लू आइज',
-    'हेलो आयुष',
-    'सुनो आयोग',
-    'हाय आयुक्त',
-    'आयुध',
-    'हाय',
-    'सोनू आयोग',
-]
+# voices = engine.getProperty('voices')
+# rate = engine.getProperty('rate')
 
 
-machine = [
-    'मशीन की इंफॉर्मेशन निकालो',
-    'मशीन की पूरी इंफॉर्मेशन निकालो',
-    'मशीन की इन पुणे का लो',
-    'मशीन की इन्फॉर्म कालो',
-    'मशीन का डाटा बताओ',
-    'मशीन का डाटा निकालो',
-    'मशीन की इंफॉर्मेशन दिखाओ',
-    'मशीन के इंफॉर्मेशन दिखाओ',
-    'मशीन की इंफॉर्मेशन निकालो',
-]
 
-machine_name_select = [
-    'sub machine ka data dikhao',
-    'sab',
-    'sub',
-    'sab machine ka data dikhao',
-    'sab sab'
-]
+# engine.setProperty('voices', voices[29].id)
+# engine.setProperty('rate', 125)
+
+# recog = [
+#     'हाय आयुध',
+#     'हेलो आयुध',
+#     'सुनो आयुध',
+#     'चुनाव आयोग',
+#     'आयुष सुनो',
+#     'आयुध सुनो',
+#     'हाय आयोग',
+#     'सुनो आयुष',
+#     'सुनो आयुष',
+#     'सुनवा युद्ध',
+#     'सुना युद्ध',
+#     'सोना युद्ध',
+#     'सुनो युद्ध',
+#     'सुनवाई युद्ध',
+#     'ब्लू आइज',
+#     'हेलो आयुष',
+#     'सुनो आयोग',
+#     'हाय आयुक्त',
+#     'आयुध',
+#     'हाय',
+#     'सोनू आयोग',
+# ]
+
+
+# machine = [
+#     'मशीन की इंफॉर्मेशन निकालो',
+#     'मशीन की पूरी इंफॉर्मेशन निकालो',
+#     'मशीन की इन पुणे का लो',
+#     'मशीन की इन्फॉर्म कालो',
+#     'मशीन का डाटा बताओ',
+#     'मशीन का डाटा निकालो',
+#     'मशीन की इंफॉर्मेशन दिखाओ',
+#     'मशीन के इंफॉर्मेशन दिखाओ',
+#     'मशीन की इंफॉर्मेशन निकालो',
+# ]
+
+# machine_name_select = [
+#     'sub machine ka data dikhao',
+#     'sab',
+#     'sub',
+#     'sab machine ka data dikhao',
+#     'sab sab'
+# ]
 
 ##--##
 
@@ -105,106 +107,48 @@ class ChatConsumer(WebsocketConsumer):
 
     # Receive message from room group
     def chat_message(self, event):
-        # message = event['message'
-        
-        def listen_this():
-            global res,r,a
-            r = sr.Recognizer()  
-            with sr.Microphone() as source:  
-                # print("Please wait. Calibrating microphone...")  
-                # listen for 5 seconds and create the ambient noise energy level  
-                r.adjust_for_ambient_noise(source, duration=3)  
-                print("Say something!")
-                a = r.listen(source)
-                # if second:
-                #     res = r.recognize_google(a)
-                # else:
-                res = r.recognize_sphinx(a)
-                return res
+        # message = event['message']
+        print('Recording')
+        CHUNK = 1024
+        FORMAT = pyaudio.paInt16
+        CHANNELS = 2
+        RATE = 44100
+        RECORD_SECONDS = 3
+        WAVE_OUTPUT_FILENAME = "output.wav"
+
+        p = pyaudio.PyAudio()
+
+        stream = p.open(format=FORMAT,
+                        channels=CHANNELS,
+                        rate=RATE,
+                        input=True,
+                        frames_per_buffer=CHUNK)
 
 
-        def ayudh():
-            print('\nनमस्ते')
-            a = 'Namaste'
-            res_back = 'आप मुझसे क्या कराना चाहते हैं'
-            engine.say("Namaste")
-            engine.say("आप मुझसे क्या कराना चाहते हैं")
-            engine.runAndWait()
+        frames = []
 
-        def commands():
-            res_back = 'आपको कौन सी मशीन डेटा चाहिए'
-            engine.say('आपको कौन सी मशीन डेटा चाहिए')
-            engine.runAndWait()
-            
+        for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
+            data = stream.read(CHUNK)
+            frames.append(data)
 
-                
-        def machine_data():
-            url = 'http://192.168.1.2/api/machines'
-            r = requests.get(url)
-            if res in machine_name_select:
-                js = r.json()
-                for data in js:
-                    jsonk = 'Json data got'
-                    print('Machine name -- '+data['name'] + '\n')
-                    print('ID :'+data['id']+'\n')
-                    print('Incharge  \n')
-                    print('Name :'+ data['incharge']['name'] + '\n')
-                    print('Phone :' + data['incharge']['phone'] + '\n')
-                    print('Email :' + data['incharge']['email'] + '\n')
-                    print('Supplier ' + data['supplier']['name'] + '\n')
-                    print("Checkup \n")
-                    print('Interval :' + str(data['checkup']['interval']['value']) +' '+ data['checkup']['interval']['unit']+'\n\n')
-                return jsonk
-            else:
-                js = r.json()
-                for data in js:
-                    final = []
-                    nam = data['name']
-                    nam = nam.lower()
-                    for j in nam:
-                        val = 0
-                        nam_split = list(j.split())
-                        res_split = list(res1.split())
-                        for response1 in res_split:
-                            if response1 in nam_split:
-                                val = val + 1
-                        if val == len(res_split):
-                            ''.join(nam_split)
-                            final.append(nam_split)
-                print(final)
-                
-                return final
-                                
-        def mainf():
-            global res_back
-            res_back = ''
-            listen_this()
-            if res in recog:
-                ayudh()
-                res_back = 'आप मुझसे क्या कराना चाहते हैं'
-                
-            elif res in machine:
-                
-                commands()
-                res_back = 'आपको कौन सी मशीन डेटा चाहिए'
-                    
-            elif res in machine_name_select:
-                
-                machine_data()
-                res_back = 'le bc kha'
-                    
-            print(res)
-            print(res_back)
-            
-        
-        mainf()
 
-            
-        
-        res = 'random test'
+        stream.stop_stream()
+        stream.close()
+        p.terminate()
 
+        wf = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
+        wf.setnchannels(CHANNELS)
+        wf.setsampwidth(p.get_sample_size(FORMAT))
+        wf.setframerate(RATE)
+        wf.writeframes(b''.join(frames))
+        wf.close()
+        # os.system('sox output.wav -c 2 -r 16000 -b 16 soxout.wav')
+        output = os.popen('deepspeech --model /home/jidnyesh/Downloads/models/output_graph.pbmm --alphabet /home/jidnyesh/Downloads/models/alphabet.txt --lm /home/jidnyesh/Downloads/models/lm.binary --trie /home/jidnyesh/Downloads/models/trie --audio /home/jidnyesh/Downloads/Voice-recog/Voice-Recognition/test/mysite/output.wav').read()
+        print('Done')
+        print(output)
+        res = output
         # Send message to WebSocket
         self.send(text_data=json.dumps({
             'message': res,
-            'response':res_back,
+            # 'response':res_back,
         }))

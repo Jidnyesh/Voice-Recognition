@@ -21,5 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^$', views.index, name='index'),
     url(r'^chat/(?P<room_name>[^/]+)/$', views.room, name='room'),
-    path('listen_this/',views.listen_this,name="listen_this")
+    path('listen_this/',views.listen_this,name="listen_this"),
+    path('test/',views.test,name='test'),
 ]
