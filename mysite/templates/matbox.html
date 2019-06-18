@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Application Format</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- development version, includes helpful console warnings -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
+</head>
+
+<body>
+
+
+    <div class="center">
+        <a class="waves-effect waves-light btn modal-trigger" onclick="callfun()">Modal</a>
+    </div>
+    <div id="modal1" class="modal" style="display: none !important;">
+        <div class="row">
+            <div class="col s1 m1 l1"></div>
+            <div class="col s10 m10 l10">
+                <div class="card main_card">
+                    <div class="container form_ctn">
+                        <form action="#" id="post_pass" method="post">
+                            <div class="header center">
+                                <h5 class="center">
+                                    Leave Application
+                                </h5>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12 m12 l12">
+                                    <textarea name="to" id="textarea1" class="materialize-textarea"></textarea>
+                                    <label for="textarea1">To</label>
+                                </div>
+
+                                <div class="input-field col s12 m12 l12">
+                                    <input type="text" name="person_name" id="pn">
+                                    <label for="pn">Person's Name</label>
+                                </div>
+
+                                <div class="input-field col s12 m12 l12">
+                                    <input type="text" name="add" id="adl">
+                                    <label for="adl">Address During Leave</label>
+                                </div>
+
+                                <div class="input-field col s12 m12 l6">
+                                    <input type="date" name="first_date" id="fd">
+                                    <label for="fd">Start Date</label>
+                                </div>
+                                <div class="input-field col s12 m12 l6">
+                                    <input type="date" name="last_date" id="ld">
+                                    <label for="ld">End Date</label>
+                                </div>
+
+                                <div class="input-field col s12 m12 l12">
+                                    <textarea name="reason" id="textarea2" class="materialize-textarea"></textarea>
+                                    <label for="textarea2">Reason</label>
+                                </div>
+
+
+                                <div class="center">
+                                    <button class="btn blue white-text waves-effect waves-light" type="submit">
+                                        Submit
+                                    </button>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col s1 m1 l1"></div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <script>
+
+        function callfun() {
+            var a = document.getElementById('modal1');
+            if (a.style.display === "none") {
+                a.style.display = 'block'
+            }
+            else {
+                a.style.display = "none"
+            }
+        }
+
+    </script>
+</body>
+
+</html>

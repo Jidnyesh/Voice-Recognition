@@ -19,303 +19,8 @@ import wave
 
 machine_cmd_all = ['all','all machine','get all of it']
 
-machine_info = [
-    'one',
-    'gate my seen information',
-    'get my sin in formation',
-    'get machining for me on',
-    'get mainington',
-    'get much in information',
-    'get much in import mason',
-    'get much in import mission',
-    'get my same information',
-    'get my senator mason',
-    'get my cuneiform on',
-    'i get my chin inflomation',
-    'get machine the',
-    'got much important',
-    'got my shine information',
-    'get my shining formation',
-    'gave my shining formation',
-    'get my ten information',
-    'got my shine information',
-    'get my ininformed son',
-    'get macinoise',
-    'get machine information',
-    'i gave my senior mason',
-    'gave my seeming for a mason',
-    'gave me an information',
-    'get a hen',
-    'gate machines',
-    'get machine in formation',
-    'i get much an importation',
-    'it machine in one may send',
-    'i get my cane information',
-    'yet my sin information',
-    'get mainington mason',
-    'get machination',
-    'get machine information',
-    'at misinformation',
-    'gate machine information',
-    'got my son in quotation',
-    'gate mycening but my son',
-    'aggicatin portion',
-    'came my seen information',
-    'i gave my sending for my son',
-    'get the machine information',
-    'gave machine details',
-    'please get the machine information',
-    'i gave my head in for my son',
-    'please get the machine on mason',
-    'please get to mining formation',
-    'please get the machine for me on',
-    'please get the machining formation',
-    'give machination',
-    'give my ininformed on',
-    'give my ceninensians',
-    'get machine in bornation',
-    'gay mycening for mason',
-    'it malinaison',
-    'i gave my shining for mission',
-    'gate mysen information',
-    'gate machine for mason',
-    'gate much an information',
-    'get much in information',
-    'get machaon my so',
-    'is that the lovers in the gate my inovation',
-    'yet marching in formatio',
-    'get my shin and t',
-    'gad my chainberla',
-    'get my chin and for m',
-    'get my shin in on missio',
-    'yes get my sho',
-    'the gas machine i',
-    'please get machine th',
-    'get machine ye',
-    'yet my shame deter',
-    'i gave my shindie',
-    'get my chin deti',
-    'get my chin i di',
-    'i got my shin',
-    'i gave my shiny di',
-    'i get my chin informatio',
-    'get my chin in formatio',
-    'germain informatio',
-    'did my chin and formatio',
-    'i gave my chin i',
-    'get my chin in formatio',
-    'get my sheet',
-    'there mad',
-    'i get my shine',
-    'get my change i',
-    'there machine',
-    'i get my share ',
-    'germaine di',
-    'my she',
-    'sh',
-    'my shi',
-    'yet machine ',
-    'get machine informatio',
-    'get machine in for',
-    'get machine in formatio',
-    'get my chin in formation',
-    'the machine informatio',
-    'yet my sin in formatio',
-    'get my chin in formatio',
-    'did much in informatio',
-    'my shin informatio',
-    'yet machine informatio',
-    'the machine informatio',
-    'get machine informatio',
-    'get my ten informatio',
-    'the much on informatio',
-    'yet my shin and',
-    'get machin',
-    'get machin',
-    'yeah get much',
-    'get machin',
-    'he gave a shor',
-    'machin',
-    'in detail',
-    'i get my shind',
-    'did my shindie',
-    'i get my sham',
-    'get much indigenc',
-    'get machin',
-    'he get much in de th',
-    'get machine i',
-    'get my change i',
-    'yet my shame d',
-    'i get machiner',
-    'get machin',
-    'get machine detail',
-    'gay shade',
-    'get machine t',
-    'she did ge',
-    'get me in nee',
-    'my shade',
-    'yet my shame need th',
-    'get my chin dea',
-    'yet to my shine',
-    'her machine be d',
-    'get on my shee',
-    'get to machine',
-    'get machine',
-    'these get machine th',
-    'i gave my shame i di',
-    'my shade',
-    'my shame he i',
-    'my son he di',
-    'in my heyda',
-    'th',
-    'marindi',
-    'machine',
-    'machine the da',
-    'to my shame be di',
-    'my shame informatio',
-    'machine in formatio',
-    'in much in informatio',
-    'machine informatio',
-    'my chin informatio',
-    'machine informatio',
-    'get machine informatio',
-    'get my chin in formatio',
-    'informatio',
-    'in formatio',
-    'and for m',
-    'and formatio',
-    'and for the missio',
-    'get missing and for m',
-    'get me my chi',
-    'the main and for me',
-    'i seen in for',
-    'yet to my son in',
-    'germain fo',
-    'get the machine i',
-    'here to a shini',
-    'the machine in format',
-    'the main and valiation',
-    'did machination',
-    'get machine in portman',
-    'get machine in fortunation',
-    'get machine information',
-    'get machine information',
-    'get my chin informant',
-    'get much in information',
-    'dead machine information',
-    'get machine in formation',
-    'dead machine information',
-    'get machine information',
-    'i get my son in formation',
-    'get my son information',
-    'i gave my chin for me so'
-    'get machievalian',
-    'get my time information',
-    'dat machine information',
-    'the mission for a mission',
-    'i get my side for my son',
-    'i gave my then inquired',
-    'i get my chin in formation',
-    'get my sinecures and ',
-    'i get my chin in pertain',
-    'get the machine informed',
-    'get my shining for mister',
-    'dead machination',
-    'get my han in potention',
-    'i gave my hand information at tea',
-    'dead machine in porto',
-    'i gave my chin in poitai',
-    'dead my sitiwatio',
-    'get my chin for the machin',
-    'get my chin informatio',
-    'dead my shame for the missio',
-    'get my senior to me so',
-    'at mycening the pertamenia',
-    'please cape my machine in for maso',
-    'les gave my seeing what amasomi of',
-    'please give my mycening formatio',
-    'please get my machining for missio',
-    'these get medicine for my sudde',
-    'get five my shame in forme',
-    'locate my my sitting on me t',
-    'hello get my machine for',
-    'get my shar',
-    'did my sending for min',
-    'get my sitivatio',
-    'get my chin importatio',
-    'gay shining formatio',
-    'to get my chin in permissio',
-    'dead my seeing poiso',
-    'did my chinde di',
-    'please get my chin need ',
-    'please get my hand in for',
-    'please get my son i',
-    'yes germain',
-    'yet for my sin in for m',
-    'get my shin informatio',
-    'dead my son informatio',
-    'get my seminoles',
-    'i gave my shining potoma',
-    'machine gets',
-    'get my senio',
-    'get machine inf',
-    'again was she importe',
-    'i gave my chin ',
-    'get my cane in one way sen',
-    'but my feet ide',
-    'go to my feet i for ',
-    'the mysterie',
-    'they my seating for maso',
-    'only my senior me h',
-    'that machine is what was i',
-    'it cuisine in for',
-    'my he gained when he got ou',
-    'but he gave me to g',
-    'give me my heated formatio',
-    'yes give me my siberian',
-    'yes give me my shi',
-    'his new me my ininforme',
-    'give me my seeming for to me seve',
-    'give me my son in portma',
-    'give me my ten into making lati',
-    'he may an',
-    'we ma',
-    'i mean my heeding phormio',
-    'give me my feeling for me said m',
-]
 
-leave_app = [
-    'fill my leave appliation',
-    'fill my leave form',
-    'two',
-    'to',
-    'feemy leave obligatio',
-    'be my leave application',
-    'well my devarication',
-    'well my leave application',
-    'spend my leave application',
-    'till my leave obligation',
-    'well my leave aplication',
-    'parmalee application',
-    'but my leave obligation',
-    'leave application',
-    'leave application',
-    'fill my leave obligation',
-    'be my leave abnegation',
-    'spell my leave obligation',
-    'fin my leave habitation',
-    'well my leave obligation',
-    'ben my leave obligation',
-    'a wis my leave application',
-    'it is my leave application',
-    'is my leave a blithe',
-    'well my leave a pleasant',
-    'well my leave aplication',
-    'tis my leave epigeion',
-    'to me i have lichen',
-    'pri my le application',
-    'is my leave aplication',
-]
+
 
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
@@ -326,6 +31,8 @@ engine.setProperty('rate', 125)
 
 class ChatConsumer(WebsocketConsumer):
     def connect(self):
+        p = os.getcwd()
+        print(p)
         self.room_name = self.scope['url_route']['kwargs']['room_name']
         self.room_group_name = 'chat_%s' % self.room_name
 
@@ -361,7 +68,12 @@ class ChatConsumer(WebsocketConsumer):
     # Receive message from room group
     def chat_message(self, event):
         global res
-
+        with open('machine_info.txt','r') as f:
+            machine_info = f.read()
+            f.close()
+        with open('leave_app_call.txt','r') as f:
+            leave_app_call = f.read()
+            f.close()
         '''Sending to server'''
         def send():
         # Send message to WebSocket
@@ -369,6 +81,11 @@ class ChatConsumer(WebsocketConsumer):
                 'message': res,
                 # 'response':res_back,
             }))
+        def send_leave(leave_msg):
+            self.send(text_data=json.dumps({
+                'leave_msg': leave_msg,
+            }))
+
         '''Printing to PDF'''
         def add_pdf(name,start,end,ltype,reason):
             main = f'''
@@ -383,6 +100,7 @@ class ChatConsumer(WebsocketConsumer):
             pdf.cell(200, 10, txt=main, ln=1, align="C")
             pdf.output("simple_demo.pdf")
             print('PDF succesfully generated in Your pc')
+
         '''For printing json data'''
         def print_json(data):
             print('Machine name -- '+data['name'] + '\n')
@@ -450,10 +168,12 @@ class ChatConsumer(WebsocketConsumer):
             res = record()
             send()
             print('orignal -- '+res)
+
             if res=='':
                 print('I cannot hear you')
                 engine.say("Sorry , I cannot hear you")
                 engine.runAndWait()
+
             elif res in machine_info: #First command if we ask for machine information
                 res = 'Get machine information'
                 print(res+'\n\n')
@@ -467,22 +187,29 @@ class ChatConsumer(WebsocketConsumer):
                 else:
                     final = get_json_byName()
                     find_machine(final)
-            elif res in leave_app:
+
+            elif res in leave_app_call:
+                send_leave(leave_msg = 'True')
                 print('Say you name: ')
                 res = record()
-                send()
+                i1 = res
+                send_leave(leave_msg = res)
                 print('Say you start date: ')
                 res = record()
-                send()
+                i2 = res
+                send_leave(leave_msg = res)
                 print('Say you end date: ')
                 res = record()
-                send()
+                i3 = res
+                send_leave(leave_msg = res)
                 print('Say you leave type: ')
-                res = record()
-                send()
+                res = record() 
+                i4 = res
+                send_leave(leave_msg = res)
                 print('Say you leave reason: ')
                 res = record()
-                send()
+                i5 = res
+                send_leave(leave_msg = res)
                 
                 add_pdf(i1,i2,i3,i4,i5)
 

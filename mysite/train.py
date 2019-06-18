@@ -1,3 +1,12 @@
+import random
+import os
+import datetime
+import speech_recognition as sr
+import requests
+import pyaudio
+import wave
+
+main = []
 def recorder():
     print('Recording')
     CHUNK = 1024
@@ -33,13 +42,12 @@ def recorder():
     wf.setframerate(RATE)
     wf.writeframes(b''.join(frames))
     wf.close()
-    output = os.popen('deepspeech --model models/output_graph.pbmm --alphabet models/alphabet.txt --lm models/lm.binary --trie models/trie --audio /home/jidnyesh/Downloads/final/mysite/output.wav').read()
-    print('Done')
-    print(output)
-    res = output
-    return res
+    output = os.popen('deepspeech --model models/output_graph.pbmm --alphabet models/alphabet.txt --lm models/lm.binary --trie models/trie --audio /home/jidnyesh/Downloads/final/Voice-Recognition/mysite/output.wav').read()
+    print('Done\n\n')
+    main.append(output)
+    for i in main:
+        j = i[:-1]
+        print('\''+j+'\''+',')
 
-
-    
-if __name__=='__main__':
+while True:
     recorder()
