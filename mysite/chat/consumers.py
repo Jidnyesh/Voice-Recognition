@@ -9,6 +9,7 @@ import pyttsx3
 import wikipedia
 import random
 import os
+import time
 import datetime
 import webbrowser
 import speech_recognition as sr
@@ -81,23 +82,37 @@ class ChatConsumer(WebsocketConsumer):
                 'message': res,
                 # 'response':res_back,
             }))
-        def send_leave(leave_msg):
+        def send_leaveform_status(leave_msg):
             self.send(text_data=json.dumps({
                 'leave_msg': leave_msg,
             }))
 
+        def send_name(leave_name,status):
+            self.send(text_data=json.dumps({
+                'leave_name': leave_name,
+                'status':status,
+            }))
+        # def send_boxinfo(box):
+        #     self.send(text_data=json.dumps({
+        #         'box':box,
+        #     }))
+
+        
         '''Printing to PDF'''
-        def add_pdf(name,start,end,ltype,reason):
-            main = f'''
-            Name : {name}\n
-            Duration : {start} - {end}\n
-            Type of leave : {ltype}\n
-            Reason : {reason}\n
-            '''
+        def add_pdf(name,address,start,end,ltype,reason):
+            name = f'Name : {name}'
+            address = f'Address : {address}'
+            duration = f'Duration of leave : {start} - {end}'
+            ltype = f'Type of leave : {ltype}'
+            reason = f'Reason : {reason}'
             pdf = FPDF()
             pdf.add_page()
             pdf.set_font("Arial", size=12)
-            pdf.cell(200, 10, txt=main, ln=1, align="C")
+            pdf.cell(200, 10, txt=name, ln=1, align="C")
+            pdf.cell(200, 10, txt=address, ln=2, align="C")
+            pdf.cell(200, 10, txt=duration, ln=3, align="C")
+            pdf.cell(200, 10, txt=ltype, ln=4, align="C")
+            pdf.cell(200, 10, txt=reason, ln=5, align="C")
             pdf.output("simple_demo.pdf")
             print('PDF succesfully generated in Your pc')
 
@@ -163,12 +178,75 @@ class ChatConsumer(WebsocketConsumer):
                 for data in js:
                     for i in range(len(final)):
                         print(i+1 + ':- '+final[i])
+        '''Leave application function'''
+        def leave_form():
+            
+            send_leaveform_status(leave_msg = 'True')
+            print('You now will tell me your information')
+            engine.say("You now will tell me your information")
+            engine.runAndWait()
+            time.sleep(1)
+        def confirm():
+            engine.say("Is this information correct")
+            engine.runAndWait()
+            conf = record()
+            return conf
+        #
+        def leave_name():
+            # send_boxinfo(box="Can you please let me know your name")
+            engine.say("Can you please let me know your name")
+            engine.runAndWait()
+            print('Say your name: ')
+            res = record()
+            i1 = res
+            return i1
+        def leave_address():
+            engine.say("Can you please let me know your address")
+            engine.runAndWait()
+            print('Say your Address: ')
+            res = record()
+            iadd = res
+            return iadd
+        #
+        def leave_start():
+            engine.say("From which date you want your leave")
+            engine.runAndWait()
+            print('Say you start date: ')
+            res = record()
+            i2 = res
+            return i2
+        #
+        def leave_end():
+            engine.say("Till which date you want your leave")
+            engine.runAndWait()
+            print('Say you end date: ')
+            res = record()
+            i3 = res
+            return i3
+        #
+        def leave_type():
+            engine.say("Which type of leave you want")
+            engine.say("one E L ,two  C L , three H P L")
+            engine.runAndWait()
+            print('Say you leave type: ')
+            res = record() 
+            i4 = res
+            return i4
+        #
+        def leave_reason():
+            engine.say("Please specify the purpose of your leave")
+            engine.runAndWait()
+            print('Say you leave reason: ')
+            res = record()
+            i5 = res
+            return i5
+         
         '''Machine get command'''
         def main():
             res = record()
             send()
             print('orignal -- '+res)
-
+        
             if res=='':
                 print('I cannot hear you')
                 engine.say("Sorry , I cannot hear you")
@@ -189,34 +267,78 @@ class ChatConsumer(WebsocketConsumer):
                     find_machine(final)
 
             elif res in leave_app_call:
-                send_leave(leave_msg = 'True')
-                print('Say you name: ')
-                res = record()
-                i1 = res
-                send_leave(leave_msg = res)
-                print('Say you start date: ')
-                res = record()
-                i2 = res
-                send_leave(leave_msg = res)
-                print('Say you end date: ')
-                res = record()
-                i3 = res
-                send_leave(leave_msg = res)
-                print('Say you leave type: ')
-                res = record() 
-                i4 = res
-                send_leave(leave_msg = res)
-                print('Say you leave reason: ')
-                res = record()
-                i5 = res
-                send_leave(leave_msg = res)
+                leave_form()
                 
-                add_pdf(i1,i2,i3,i4,i5)
+                def name_confirm():
+                    name = leave_name()
+                    status = 'pn'
+                    send_name(name,status)
+                    conf = confirm()
+                    return conf,name
 
-            else:
-                print('Not found')
+                def address_confirm():
+                    address = leave_address()
+                    status = 'adl'
+                    send_name(address,status)
+                    conf = confirm()
+                    return conf,address
+                #
+                def start_confirm():
+                    start = leave_start()
+                    status = 'fd'
+                    send_name(start,status)
+                    conf = confirm()
+                    return conf,start
+                #
+                def end_confirm():
+                    end = leave_end()
+                    status = 'ld'
+                    send_name(end,status)
+                    conf = confirm()
+                    return conf,end
+                #
+                def type_confirm():    
+                    typex = leave_type()
+                    status = 'lt'
+                    send_name(typex,status)
+                    conf = confirm()
+                    return conf,typex
+                #
+                def reason_confirm():
+                    reason = leave_reason()
+                    status = 'r'
+                    send_name(reason,status)
+                    conf = confirm()
+                    return conf,reason
+                
+                conf,name = name_confirm()
+                while conf=='no':
+                    conf = name_confirm()
+                conf,address = address_confirm()
+                while conf=='no':
+                    conf = address_confirm()
+                conf,start = start_confirm()
+                while conf=='no':
+                    conf = start_confirm()
+                conf,end = end_confirm()
+                while conf=='no':
+                    conf = end_confirm()
+                conf,typex = type_confirm()
+                while conf=='no':
+                    conf = type_confirm()
+                conf,reason = reason_confirm()
+                while conf=='no':
+                    conf = reason_confirm()
+                
+                engine.say('Your information is now saved into a PDF successfully')
+                engine.runAndWait()
+
+                add_pdf(name,address,start,end,typex,reason)
             
-        ''' Record Function'''
+        def leave_break():
+            print("breaked")
+            
+
         def record():
             global res
             print('Recording')
@@ -259,6 +381,9 @@ class ChatConsumer(WebsocketConsumer):
             lis_res = list(res)
             res = ''.join(lis_res[:-1])
             print(res)
+            if res=='exit application':
+                send_leaveform_status(leave_msg='False')
+                leave_break()
             return res
         
         main()

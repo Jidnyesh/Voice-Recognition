@@ -17,8 +17,10 @@ label{
     width:0px !important;
 }
 .modal{
-     /* background: transparent !important;
-     box-shadow: none !important; */
+     background: transparent !important;
+     box-shadow: none !important; 
      border-radius:15px;
+     max-height:100%;
+     width: 75%;
     /* background:linear-gradient(to right,rgb(32, 237, 250),rgb(23, 58, 161)); */
 }

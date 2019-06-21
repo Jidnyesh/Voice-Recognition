@@ -3,6 +3,7 @@ leave_app_call = [
     'fill my leave form',
     'two',
     'to',
+    'leave a legation',
     'leave application',
     'feemy leave obligatio',
     'be my leave application',
