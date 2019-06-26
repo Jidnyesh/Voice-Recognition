@@ -32,8 +32,6 @@ engine.setProperty('rate', 125)
 
 class ChatConsumer(WebsocketConsumer):
     def connect(self):
-        p = os.getcwd()
-        print(p)
         self.room_name = self.scope['url_route']['kwargs']['room_name']
         self.room_group_name = 'chat_%s' % self.room_name
 
@@ -44,6 +42,7 @@ class ChatConsumer(WebsocketConsumer):
         )
 
         self.accept()
+    
 
     def disconnect(self, close_code):
         # Leave room group
@@ -51,51 +50,69 @@ class ChatConsumer(WebsocketConsumer):
             self.room_group_name,
             self.channel_name
         )
+        
+        
 
     # Receive message from WebSocket
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
-
+        print(message)
         # Send message to room group
-        async_to_sync(self.channel_layer.group_send)(
-            self.room_group_name,
-            {
-                'type': 'chat_message',
-                'message': message
-            }
-        )
+        if message=='hell':
+            async_to_sync(self.channel_layer.group_send)(
+                self.room_group_name,
+                {
+                    'type': 'chat_message',
+                    'message': message
+                }
+            )
+        else:
+            print('runned')
 
     # Receive message from room group
     def chat_message(self, event):
         global res
+
+        #To import list from machine_info.txt
         with open('machine_info.txt','r') as f:
-            machine_info = f.read()
+            machine_info_list = f.read()
             f.close()
+
+        #To import list from leave_app_call.txt
         with open('leave_app_call.txt','r') as f:
             leave_app_call = f.read()
             f.close()
+
         '''Sending to server'''
+        #Sending message converted
         def send():
-        # Send message to WebSocket
             self.send(text_data=json.dumps({
                 'message': res,
                 # 'response':res_back,
             }))
+        #Sending leaveform status
         def send_leaveform_status(leave_msg):
             self.send(text_data=json.dumps({
                 'leave_msg': leave_msg,
             }))
-
+        #Sending leave application form fields
         def send_name(leave_name,status):
             self.send(text_data=json.dumps({
                 'leave_name': leave_name,
                 'status':status,
             }))
-        # def send_boxinfo(box):
-        #     self.send(text_data=json.dumps({
-        #         'box':box,
-        #     }))
+        #sending machine info status and machine info
+        def send_machine_info_status(machine_info,statusm):
+            self.send(text_data=json.dumps({
+                'machine_info_status':machine_info,
+                'statusm':statusm,
+            }))
+        #Send page reload information
+        def send_reload(reloadp):
+            self.send(text_data=json.dumps({
+                'reloadp':reloadp,
+            }))
 
         
         '''Printing to PDF'''
@@ -118,6 +135,12 @@ class ChatConsumer(WebsocketConsumer):
 
         '''For printing json data'''
         def print_json(data):
+            main = f'''
+            Machine name -- {data['name']}\n
+            ID : {data['id']}
+            Incharge \n
+            Name : {data['incharge']['name']}
+            '''
             print('Machine name -- '+data['name'] + '\n')
             print('ID :'+data['id']+'\n')
             print('Incharge  \n')
@@ -127,8 +150,8 @@ class ChatConsumer(WebsocketConsumer):
             print('Supplier ' + data['supplier']['name'] + '\n')
             print("Checkup \n")
             print('Interval :' + str(data['checkup']['interval']['value']) +' '+ data['checkup']['interval']['unit']+'\n\n')
-          
-
+            return main
+        #GEtting json output by name 
         def get_json_byName():
             js = parse_json()
             res_split = res.split()
@@ -154,7 +177,8 @@ class ChatConsumer(WebsocketConsumer):
         def get_json_all():
             js = parse_json()
             for data in js:
-                print_json(data)
+                main = print_json(data)
+                return main
 
         '''Json parser'''
         def parse_json():
@@ -252,7 +276,7 @@ class ChatConsumer(WebsocketConsumer):
                 engine.say("Sorry , I cannot hear you")
                 engine.runAndWait()
 
-            elif res in machine_info: #First command if we ask for machine information
+            elif res in machine_info_list: #First command if we ask for machine information
                 res = 'Get machine information'
                 print(res+'\n\n')
                 print('Which machine information you would like to see\n\n')
@@ -261,129 +285,130 @@ class ChatConsumer(WebsocketConsumer):
                 res = record()
                 send()
                 if res in machine_cmd_all:
-                    get_json_all()
+                    # machine_info = get_json_all()
+                    machine_info = 'This is machine info'
+                    statusm = 'True'
+                    send_machine_info_status(machine_info,statusm)
                 else:
                     final = get_json_byName()
                     find_machine(final)
 
             elif res in leave_app_call:
                 leave_form()
-                
+
                 def name_confirm():
                     name = leave_name()
                     status = 'pn'
                     send_name(name,status)
-                    conf = confirm()
-                    return conf,name
+                    return name
 
                 def address_confirm():
                     address = leave_address()
                     status = 'adl'
                     send_name(address,status)
-                    conf = confirm()
-                    return conf,address
+                    return address
                 #
                 def start_confirm():
                     start = leave_start()
                     status = 'fd'
                     send_name(start,status)
-                    conf = confirm()
-                    return conf,start
+                    return start
                 #
                 def end_confirm():
                     end = leave_end()
                     status = 'ld'
                     send_name(end,status)
-                    conf = confirm()
-                    return conf,end
+                    return end
                 #
                 def type_confirm():    
                     typex = leave_type()
                     status = 'lt'
                     send_name(typex,status)
-                    conf = confirm()
-                    return conf,typex
+                    return typex
                 #
                 def reason_confirm():
                     reason = leave_reason()
                     status = 'r'
                     send_name(reason,status)
+                    return reason
+                def leave_main():
+                    name = name_confirm()
+                    address = address_confirm()
+                    start = start_confirm()
+                    end = end_confirm()
+                    typex = type_confirm() 
+                    reason = reason_confirm()
+                    print("Is this information correct")
                     conf = confirm()
-                    return conf,reason
-                
-                conf,name = name_confirm()
-                while conf=='no':
-                    conf = name_confirm()
-                conf,address = address_confirm()
-                while conf=='no':
-                    conf = address_confirm()
-                conf,start = start_confirm()
-                while conf=='no':
-                    conf = start_confirm()
-                conf,end = end_confirm()
-                while conf=='no':
-                    conf = end_confirm()
-                conf,typex = type_confirm()
-                while conf=='no':
-                    conf = type_confirm()
-                conf,reason = reason_confirm()
-                while conf=='no':
-                    conf = reason_confirm()
-                
+                    if conf=='no':
+                        print('Say your information again')
+                        leave_main()
+                    else:
+                        add_pdf(name,address,start,end,typex,reason)
+                        final = 'fuck'
+                        status = 'over'
+                        send_name(final,status)
+                leave_main()
                 engine.say('Your information is now saved into a PDF successfully')
                 engine.runAndWait()
+        # def record():
+        #     global res
+        #     print('Recording')
+        #     CHUNK = 1024
+        #     FORMAT = pyaudio.paInt16
+        #     CHANNELS = 2
+        #     RATE = 44100
+        #     RECORD_SECONDS = 3
+        #     WAVE_OUTPUT_FILENAME = "output.wav"
 
-                add_pdf(name,address,start,end,typex,reason)
-            
-        def leave_break():
-            print("breaked")
-            
+        #     p = pyaudio.PyAudio()
 
+        #     stream = p.open(format=FORMAT,
+        #                     channels=CHANNELS,
+        #                     rate=RATE,
+        #                     input=True,
+        #                     frames_per_buffer=CHUNK)
+
+
+        #     frames = []
+
+        #     for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
+        #         data = stream.read(CHUNK)
+        #         frames.append(data)
+
+
+        #     stream.stop_stream()
+        #     stream.close()
+        #     p.terminate()
+
+        #     wf = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
+        #     wf.setnchannels(CHANNELS)
+        #     wf.setsampwidth(p.get_sample_size(FORMAT))
+        #     wf.setframerate(RATE)
+        #     wf.writeframes(b''.join(frames))
+        #     wf.close()
+        #     os.system('sox output.wav -c 2 -r 8000 -b 16 soxout.wav')
+        #     res = os.popen('deepspeech --model models/output_graph.pbmm --alphabet models/alphabet.txt --lm models/lm.binary --trie models/trie --audio /home/jidnyesh/Downloads/final/Voice-Recognition/mysite/soxout.wav').read()
+        #     print('Done')
+        #     lis_res = list(res)
+        #     res = ''.join(lis_res[:-1])
+        #     print(res)
+        #     if res=='exit application':
+        #         send_leaveform_status(leave_msg='False')
+        #         send_reload(reloadp='True')
+        #     else:
+        #         return res
         def record():
             global res
-            print('Recording')
-            CHUNK = 1024
-            FORMAT = pyaudio.paInt16
-            CHANNELS = 2
-            RATE = 44100
-            RECORD_SECONDS = 3
-            WAVE_OUTPUT_FILENAME = "output.wav"
-
-            p = pyaudio.PyAudio()
-
-            stream = p.open(format=FORMAT,
-                            channels=CHANNELS,
-                            rate=RATE,
-                            input=True,
-                            frames_per_buffer=CHUNK)
-
-
-            frames = []
-
-            for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
-                data = stream.read(CHUNK)
-                frames.append(data)
-
-
-            stream.stop_stream()
-            stream.close()
-            p.terminate()
-
-            wf = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
-            wf.setnchannels(CHANNELS)
-            wf.setsampwidth(p.get_sample_size(FORMAT))
-            wf.setframerate(RATE)
-            wf.writeframes(b''.join(frames))
-            wf.close()
-            os.system('sox output.wav -c 2 -r 8000 -b 16 soxout.wav')
-            res = os.popen('deepspeech --model models/output_graph.pbmm --alphabet models/alphabet.txt --lm models/lm.binary --trie models/trie --audio /home/jidnyesh/Downloads/final/Voice-Recognition/mysite/soxout.wav').read()
-            print('Done')
-            lis_res = list(res)
-            res = ''.join(lis_res[:-1])
-            print(res)
-            if res=='exit application':
-                send_leaveform_status(leave_msg='False')
-                leave_break()
+            r = sr.Recognizer()  
+            with sr.Microphone() as source:  
+                print("Please wait. Calibrating microphone...")  
+                # listen for 5 seconds and create the ambient noise energy level  
+                r.adjust_for_ambient_noise(source, duration=3)
+                print("Say something!")
+                a = r.listen(source)
+                res = r.recognize_google(a)
+                print(res)
             return res
         
         main()

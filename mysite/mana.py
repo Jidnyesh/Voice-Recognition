@@ -1,4 +1,2 @@
-machine_info_command = ['get machining for me on', 'get mainington', 'get much in import mason', 'get much in import mission', 'get my same information', 'get my senator mason', 'get my cuneiform on', 'i get my chin inflomation', 'get machine the', 'got much important', 'got my shine information', 'get my ten information', 'got my shine information', 'get my ininformed son', 'get macinoise', 'get machine information', 'i gave my senior mason', 'gave my seeming for a mason', 'gave me an information', 'get a hen', 'gate machines', 'get machine in formation', 'i get much an importation', 'it machine in one may send', 'i get my cane information', 'yet my sin information', 'get mainington mason', 'get machination', 'get machine information', 'at misinformation', 'gate machine information', 'got my son in quotation', 'gate mycening but my son', 'aggicatin portion', 'came my seen information', 'i gave my sending for my son', 'get the machine information', 'gave machine details', 'please get the machine information', 'i gave my head in for my son', 'please get the machine on mason', 'please get to mining formation', 'please get the machine for me on']
-
-for i in machine_info_command:
-    print('\''+i+'\''+',')
+def ran():
+    
